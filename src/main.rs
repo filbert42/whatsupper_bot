@@ -5,6 +5,7 @@
 extern crate frunk;
 
 mod dialogue;
+mod utils;
 
 use crate::dialogue::Dialogue;
 use teloxide::prelude::*;
