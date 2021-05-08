@@ -1,13 +1,14 @@
+mod dishes;
 mod states;
 
-use crate::dialogue::states::{ReceiveRequest, StartState};
+use crate::dialogue::states::{ReceiveRequestState, StartState};
 use derive_more::From;
 use teloxide::macros::Transition;
 
 #[derive(Transition, Clone, From)]
 pub enum Dialogue {
     Start(StartState),
-    ReceiveLocation(ReceiveRequest),
+    ReceiveRequest(ReceiveRequestState),
 }
 
 impl Default for Dialogue {

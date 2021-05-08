@@ -1,4 +1,4 @@
-use crate::dialogue::{states::ReceiveRequest, Dialogue};
+use crate::dialogue::{states::ReceiveRequestState, Dialogue};
 use teloxide::prelude::*;
 
 #[derive(Clone)]
@@ -12,5 +12,5 @@ async fn start(
 ) -> TransitionOut<Dialogue> {
     cx.answer("Привет! Я твой кулинарный помощник! Чем могу помочь?")
         .await?;
-    next(ReceiveRequest)
+    next(ReceiveRequestState)
 }
