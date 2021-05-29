@@ -1,14 +1,30 @@
-use crate::dialogue::Dialogue;
+use crate::dialogue::{dishes::Dish, Dialogue};
+use crate::utils::*;
 use teloxide::{prelude::*, types::ReplyMarkup};
 
-use super::ReceiveRequestState;
+#[derive(Clone, Generic)]
+struct SuggestedDish {
+    variants: Vec<Dish>,
+    dish: Dish,
+}
+
+impl SuggestedDish {
+    fn new(variants: Vec<Dish>, dish: Dish) -> Self {
+        SuggestedDish {
+            variants: variants,
+            dish: dish,
+        }
+    }
+}
 
 #[derive(Clone, Generic)]
-pub struct DishSuggestedState;
+pub struct DishSuggestedState {
+    suggested: SuggestedDish,
+}
 
 #[teloxide(subtransition)]
 async fn dish_suggested(
-    _state: DishSuggestedState,
+    state: DishSuggestedState,
     cx: TransitionIn<AutoSend<Bot>>,
     ans: String,
 ) -> TransitionOut<Dialogue> {
@@ -20,8 +36,18 @@ async fn dish_suggested(
             exit()
         }
         "А можно чего другого?" => {
+            let rest_variants: Vec<Dish> = state
+                .suggested
+                .variants
+                .iter()
+                .filter(|d| d.name != state.suggested.dish.name)
+                .collect();
+            let chosen_dish = choose_random_food(rest_variants);
             cx.answer("Ой, всё!".to_string()).await?;
-            next(ReceiveRequestState)
+            next(DishSuggestedState::up(
+                state,
+                SuggestedDish::new(rest_variants, chosen_dish),
+            ))
         }
         _ => {
             cx.answer("Прости, ничем не могу с этим помочь".to_string())

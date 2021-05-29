@@ -1,16 +1,19 @@
 #[derive(Clone)]
 pub struct Dish {
-    name: String,
-    description: String,
-    composition: Vec<String>,
+    pub name: String,
+    pub description: String,
+    pub composition: Vec<String>,
 }
 
 impl Dish {
-    pub fn new(name: String, description: String, composition: Vec<String>) -> Self {
+    pub fn new(name: String, description: String, composition: Vec<&str>) -> Self {
         Dish {
             name: name,
             description: description,
-            composition: composition,
+            composition: composition
+                .iter()
+                .map(|&s| s.to_string())
+                .collect::<Vec<String>>(),
         }
     }
 

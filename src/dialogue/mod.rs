@@ -1,4 +1,4 @@
-mod dishes;
+pub mod dishes;
 mod states;
 
 use crate::dialogue::states::{

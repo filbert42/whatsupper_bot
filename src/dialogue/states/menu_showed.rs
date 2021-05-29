@@ -1,7 +1,7 @@
 use crate::dialogue::Dialogue;
 use teloxide::{prelude::*, types::ReplyMarkup};
 
-use super::ReceiveRequestState;
+use super::DishSuggestedState;
 
 #[derive(Clone, Generic)]
 pub struct MenuShowedState;
@@ -21,7 +21,7 @@ async fn menu_showed(
         }
         "Ладно, мне повезет!" => {
             cx.answer("Ой, всё!".to_string()).await?;
-            next(ReceiveRequestState)
+            next(DishSuggestedState)
         }
         _ => {
             cx.answer("Прости, ничем не могу с этим помочь".to_string())

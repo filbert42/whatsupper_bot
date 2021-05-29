@@ -1,9 +1,7 @@
-use crate::dialogue::dishes::Dish;
 use crate::dialogue::{
     states::dish_suggested::DishSuggestedState, states::menu_showed::MenuShowedState, Dialogue,
 };
-use crate::utils::create_two_button_keyboard;
-use rand::seq::SliceRandom;
+use crate::utils::*;
 use teloxide::{prelude::*, types::ReplyMarkup};
 
 #[derive(Clone, Generic)]
@@ -45,37 +43,4 @@ fn dish_keyboard() -> ReplyMarkup {
 
 fn menu_keyboard() -> ReplyMarkup {
     create_two_button_keyboard("Спасибо!", "Ладно, мне повезет!")
-}
-
-fn choose_random_food(variants: Vec<Dish>) -> Dish {
-    variants.choose(&mut rand::thread_rng()).unwrap().clone()
-}
-
-fn get_food_variants() -> Vec<Dish> {
-    vec![
-        Dish::new(
-            "Хумус".to_string(),
-            "Вкуснейшая ближневосточная закуска.".to_string(),
-            vec!["нут", "тхина", "оливковое масло", "чеснок", "лимонный сок"]
-                .iter()
-                .map(|&s| s.to_string())
-                .collect::<Vec<String>>(),
-        ),
-        Dish::new(
-            "Маджадра".to_string(),
-            "Главное вегетарианское блюдо на свете".to_string(),
-            vec!["рис", "чечевица", "лук"]
-                .iter()
-                .map(|&s| s.to_string())
-                .collect::<Vec<String>>(),
-        ),
-        Dish::new(
-            "Шахи Панир".to_string(),
-            "Нежный индийский сыр в томатном соусе".to_string(),
-            vec!["панир", "помидоры", "перец"]
-                .iter()
-                .map(|&s| s.to_string())
-                .collect::<Vec<String>>(),
-        ),
-    ]
 }
