@@ -13,8 +13,8 @@ pub fn create_two_button_keyboard(
     ReplyMarkup::Keyboard(keyboard)
 }
 
-pub fn choose_random_food(variants: Vec<Dish>) -> Dish {
-    variants.choose(&mut rand::thread_rng()).unwrap().clone()
+pub fn choose_random_food(variants: &Vec<Dish>) -> Option<&Dish> {
+    variants.choose(&mut rand::thread_rng())
 }
 
 pub fn get_food_variants() -> Vec<Dish> {
@@ -37,10 +37,10 @@ pub fn get_food_variants() -> Vec<Dish> {
     ]
 }
 
-fn dish_keyboard() -> ReplyMarkup {
+pub fn dish_keyboard() -> ReplyMarkup {
     create_two_button_keyboard("Cпасибо!", "А можно чего другого?")
 }
 
-fn menu_keyboard() -> ReplyMarkup {
+pub fn menu_keyboard() -> ReplyMarkup {
     create_two_button_keyboard("Спасибо!", "Ладно, мне повезет!")
 }

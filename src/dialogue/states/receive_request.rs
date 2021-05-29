@@ -16,11 +16,21 @@ async fn receive_request(
     match ans.as_str() {
         "Чего бы мне поесть сегодня?" => {
             let variants = get_food_variants();
-            let chosen_food = choose_random_food(variants);
-            cx.answer(chosen_food.format_to_string())
-                .reply_markup(dish_keyboard())
-                .await?;
-            next(DishSuggestedState)
+            let chosen_food = choose_random_food(&variants);
+            match chosen_food {
+                Some(dish) => {
+                    cx.answer(dish.clone().format_to_string())
+                        .reply_markup(dish_keyboard())
+                        .await?;
+                    next(DishSuggestedState::new(variants.clone(), dish.clone()))
+                }
+                None => {
+                    cx.answer("Ой, а блюда-то закончились!".to_string())
+                        .reply_markup(ReplyMarkup::kb_remove())
+                        .await?;
+                    exit()
+                }
+            }
         }
         "Огласите весь список!" => {
             cx.answer("Ой, всё!".to_string())
@@ -35,12 +45,4 @@ async fn receive_request(
             exit()
         }
     }
-}
-
-fn dish_keyboard() -> ReplyMarkup {
-    create_two_button_keyboard("Cпасибо!", "А можно чего другого?")
-}
-
-fn menu_keyboard() -> ReplyMarkup {
-    create_two_button_keyboard("Спасибо!", "Ладно, мне повезет!")
 }
