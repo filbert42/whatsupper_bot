@@ -19,12 +19,9 @@ async fn receive_request(
             let chosen_food = choose_random_food(&variants);
             match chosen_food {
                 Some(dish) => {
-                    cx.answer(format!(
-                        "Я предлагаю тебе ответадь сегодня:\n{0}",
-                        dish.clone().format_to_string()
-                    ))
-                    .reply_markup(dish_keyboard())
-                    .await?;
+                    cx.answer(dish_suggestion_text(dish))
+                        .reply_markup(dish_keyboard())
+                        .await?;
                     next(DishSuggestedState::new(variants.clone(), dish.clone()))
                 }
                 None => {
@@ -37,7 +34,7 @@ async fn receive_request(
         }
         "Огласите весь список!" => {
             let full_list = get_food_variants()
-                .into_iter()
+                .iter()
                 .map(|d| d.format_to_string())
                 .collect::<Vec<String>>()
                 .join("\n\n");

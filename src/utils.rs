@@ -37,6 +37,13 @@ pub fn get_food_variants() -> Vec<Dish> {
     ]
 }
 
+pub fn dish_suggestion_text(dish: &Dish) -> String {
+    format!(
+        "Я предлагаю тебе отведать сегодня:\n{0}",
+        dish.format_to_string()
+    )
+}
+
 pub fn dish_keyboard() -> ReplyMarkup {
     create_two_button_keyboard("Cпасибо!", "А можно чего другого?")
 }

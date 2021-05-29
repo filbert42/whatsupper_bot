@@ -17,7 +17,7 @@ impl Dish {
         }
     }
 
-    pub fn format_to_string(self) -> String {
+    pub fn format_to_string(&self) -> String {
         format!(
             "{0}\n{1}\nСостав: {2}",
             self.name,

@@ -40,12 +40,9 @@ async fn dish_suggested(
             let chosen_dish = choose_random_food(&rest_variants);
             match chosen_dish {
                 Some(dish) => {
-                    cx.answer(format!(
-                        "Я предлагаю тебе ответадь сегодня:\n{0}",
-                        dish.clone().format_to_string()
-                    ))
-                    .reply_markup(dish_keyboard())
-                    .await?;
+                    cx.answer(dish_suggestion_text(dish))
+                        .reply_markup(dish_keyboard())
+                        .await?;
                     next(DishSuggestedState::new(rest_variants.clone(), dish.clone()))
                 }
                 None => {
