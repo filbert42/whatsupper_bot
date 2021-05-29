@@ -1,7 +1,7 @@
+use super::DishSuggestedState;
 use crate::dialogue::Dialogue;
+use crate::utils::*;
 use teloxide::{prelude::*, types::ReplyMarkup};
-
-use super::ReceiveRequestState;
 
 #[derive(Clone, Generic)]
 pub struct MenuShowedState;
@@ -20,8 +20,25 @@ async fn menu_showed(
             exit()
         }
         "Ладно, мне повезет!" => {
-            cx.answer("Ой, всё!".to_string()).await?;
-            next(ReceiveRequestState)
+            let variants = get_food_variants();
+            let chosen_food = choose_random_food(&variants);
+            match chosen_food {
+                Some(dish) => {
+                    cx.answer(format!(
+                        "Я предлагаю тебе ответадь сегодня:\n{0}",
+                        dish.clone().format_to_string()
+                    ))
+                    .reply_markup(dish_keyboard())
+                    .await?;
+                    next(DishSuggestedState::new(variants.clone(), dish.clone()))
+                }
+                None => {
+                    cx.answer("Ой, а блюда-то закончились!".to_string())
+                        .reply_markup(ReplyMarkup::kb_remove())
+                        .await?;
+                    exit()
+                }
+            }
         }
         _ => {
             cx.answer("Прости, ничем не могу с этим помочь".to_string())
