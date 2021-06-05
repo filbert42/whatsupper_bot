@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use serde_json::Result;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Dish {

@@ -2,7 +2,7 @@ use crate::{
     dialogue::{states::ReceiveRequestState, Dialogue},
     utils::*,
 };
-use teloxide::{prelude::*, types::ReplyMarkup};
+use teloxide::prelude::*;
 
 #[derive(Clone)]
 pub struct StartState;

@@ -19,8 +19,8 @@ pub fn get_food_variants() -> Vec<Dish> {
     let raw_json = std::fs::read_to_string("./src/data/dishes_list.json")
         .expect("Something went wrong reading the file");
     let list: Vec<Dish> =
-        serde_json::from_str(&raw_json).unwrap_or(vec![Dish::new("", "", vec![""])]);
-    return list;
+        serde_json::from_str(&raw_json).unwrap_or_else(|_| vec![Dish::new("", "", vec![""])]);
+    list
 }
 
 pub fn dish_suggestion_text(dish: &Dish) -> String {
