@@ -2,7 +2,7 @@ pub mod dishes;
 mod states;
 
 use crate::dialogue::states::{
-    DishSuggestedState, MenuShowedState, ReceiveRequestState, StartState,
+    DishSuggestedState, IngredientChoosingState, MenuShowedState, ReceiveRequestState, StartState,
 };
 use derive_more::From;
 use teloxide::macros::Transition;
@@ -13,6 +13,7 @@ pub enum Dialogue {
     ReceiveRequest(ReceiveRequestState),
     DishSuggested(DishSuggestedState),
     MenuShowed(MenuShowedState),
+    IngredientChoosing(IngredientChoosingState),
 }
 
 impl Default for Dialogue {

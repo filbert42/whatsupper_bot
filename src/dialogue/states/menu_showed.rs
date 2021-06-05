@@ -14,7 +14,7 @@ async fn menu_showed(
 ) -> TransitionOut<Dialogue> {
     match ans.as_str() {
         "Спасибо!" => {
-            cx.answer(format!("Пожалуйста!"))
+            cx.answer("Пожалуйста!".to_string())
                 .reply_markup(ReplyMarkup::kb_remove())
                 .await?;
             exit()

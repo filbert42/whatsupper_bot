@@ -1,6 +1,8 @@
-use crate::dialogue::{
-    states::dish_suggested::DishSuggestedState, states::menu_showed::MenuShowedState, Dialogue,
+use crate::dialogue::states::{
+    dish_suggested::DishSuggestedState, ingredient_choosing::IngredientChoosingState,
+    menu_showed::MenuShowedState,
 };
+use crate::dialogue::Dialogue;
 use crate::utils::*;
 use teloxide::{prelude::*, types::ReplyMarkup};
 
@@ -31,6 +33,12 @@ async fn receive_request(
                     exit()
                 }
             }
+        }
+        "А посоветуй-ка мне что-нибудь с..." => {
+            cx.answer("Легко! Что бы ты хотел видеть в своем блюде?".to_string())
+                .reply_markup(ReplyMarkup::kb_remove())
+                .await?;
+            next(IngredientChoosingState)
         }
         "Огласите весь список!" => {
             let full_list = get_food_variants()

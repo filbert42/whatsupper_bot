@@ -4,10 +4,7 @@ use teloxide::{prelude::*, types::ReplyMarkup};
 
 impl DishSuggestedState {
     pub fn new(variants: Vec<Dish>, dish: Dish) -> Self {
-        DishSuggestedState {
-            variants: variants,
-            dish: dish,
-        }
+        DishSuggestedState { variants, dish }
     }
 }
 
@@ -25,7 +22,7 @@ async fn dish_suggested(
 ) -> TransitionOut<Dialogue> {
     match ans.as_str() {
         "Cпасибо!" => {
-            cx.answer(format!("Всегда пожалуйста!"))
+            cx.answer("Всегда пожалуйста!".to_string())
                 .reply_markup(ReplyMarkup::kb_remove())
                 .await?;
             exit()
