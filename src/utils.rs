@@ -37,3 +37,11 @@ pub fn dish_keyboard() -> ReplyMarkup {
 pub fn menu_keyboard() -> ReplyMarkup {
     create_keyboard(vec!["Спасибо!", "Ладно, мне повезет!"])
 }
+
+pub fn start_keyboard() -> ReplyMarkup {
+    create_keyboard(vec![
+        "Чего бы мне поесть сегодня?",
+        "А посоветуй-ка мне что-нибудь с...",
+        "Огласите весь список!",
+    ])
+}

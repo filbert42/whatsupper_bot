@@ -1,6 +1,6 @@
 use crate::{
     dialogue::{states::ReceiveRequestState, Dialogue},
-    utils::create_keyboard,
+    utils::*,
 };
 use teloxide::{prelude::*, types::ReplyMarkup};
 
@@ -17,12 +17,4 @@ async fn start(
         .reply_markup(start_keyboard())
         .await?;
     next(ReceiveRequestState)
-}
-
-fn start_keyboard() -> ReplyMarkup {
-    create_keyboard(vec![
-        "Чего бы мне поесть сегодня?",
-        "А посоветуй-ка мне что-нибудь с...",
-        "Огласите весь список!",
-    ])
 }

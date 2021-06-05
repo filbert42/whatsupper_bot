@@ -36,7 +36,7 @@ async fn receive_request(
         }
         "А посоветуй-ка мне что-нибудь с..." => {
             cx.answer("Легко! Что бы ты хотел видеть в своем блюде?".to_string())
-                .reply_markup(ReplyMarkup::kb_remove())
+                .reply_markup(create_keyboard(vec!["Я передумал, назад!"]))
                 .await?;
             next(IngredientChoosingState)
         }
