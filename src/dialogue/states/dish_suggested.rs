@@ -1,5 +1,4 @@
-use crate::dialogue::{dishes::Dish, Dialogue};
-use crate::replics;
+use crate::dialogue::{dishes::Dish, replics, Dialogue};
 use crate::utils::*;
 use teloxide::prelude::*;
 

@@ -1,7 +1,6 @@
-use crate::dialogue::Dialogue;
 use crate::dialogue::IngredientChoosingState;
+use crate::dialogue::{replics, Dialogue};
 use crate::keyboards::*;
-use crate::replics;
 use crate::utils::*;
 use teloxide::prelude::*;
 

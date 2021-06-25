@@ -1,5 +1,4 @@
-use crate::dialogue::Dialogue;
-use crate::replics;
+use crate::dialogue::{replics, Dialogue};
 use crate::utils::*;
 use teloxide::prelude::*;
 
