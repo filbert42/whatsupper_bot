@@ -1,5 +1,5 @@
 use crate::dialogue::dishes::Dish;
-use crate::dialogue::{replics, Dialogue};
+use crate::dialogue::{transitions, Dialogue};
 use crate::keyboards::*;
 use crate::utils::*;
 use teloxide::prelude::*;
@@ -38,7 +38,7 @@ async fn ingredient_choosing(
                 .cloned()
                 .collect();
             let chosen_food = choose_random_dish(&variants);
-            replics::chosen_dish_answer(cx, chosen_food, &variants).await
+            transitions::chosen_dish_answer(cx, chosen_food, &variants).await
         }
     }
 }

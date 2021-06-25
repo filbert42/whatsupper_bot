@@ -1,4 +1,4 @@
-use crate::dialogue::{replics, Dialogue};
+use crate::dialogue::{transitions, Dialogue};
 use crate::utils::*;
 use teloxide::prelude::*;
 
@@ -12,12 +12,12 @@ async fn menu_showed(
     ans: String,
 ) -> TransitionOut<Dialogue> {
     match ans.as_str() {
-        "Спасибо!" => replics::thanks_reply(cx, "Пожалуйста!").await,
+        "Спасибо!" => transitions::thanks_reply(cx, "Пожалуйста!").await,
         "Ладно, мне повезет!" => {
             let variants = get_dish_variants();
             let chosen_food = choose_random_dish(&variants);
-            replics::chosen_dish_answer(cx, chosen_food, &variants).await
+            transitions::chosen_dish_answer(cx, chosen_food, &variants).await
         }
-        _ => replics::sorry_not_sorry(cx).await,
+        _ => transitions::sorry_not_sorry(cx).await,
     }
 }

@@ -1,6 +1,6 @@
 pub mod dishes;
-pub mod replics;
 mod states;
+pub mod transitions;
 
 pub use crate::dialogue::states::{
     DishSuggestedState, IngredientChoosingState, MenuShowedState, ReceiveRequestState, StartState,

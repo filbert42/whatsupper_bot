@@ -1,4 +1,4 @@
-use crate::dialogue::{dishes::Dish, replics, Dialogue};
+use crate::dialogue::{dishes::Dish, transitions, Dialogue};
 use crate::utils::*;
 use teloxide::prelude::*;
 
@@ -21,7 +21,7 @@ async fn dish_suggested(
     ans: String,
 ) -> TransitionOut<Dialogue> {
     match ans.as_str() {
-        "Cпасибо!" => replics::thanks_reply(cx, "Всегда пожалуйста!").await,
+        "Cпасибо!" => transitions::thanks_reply(cx, "Всегда пожалуйста!").await,
         "А можно чего другого?" => {
             let rest_variants: Vec<Dish> = state
                 .variants
@@ -30,8 +30,8 @@ async fn dish_suggested(
                 .cloned()
                 .collect();
             let chosen_dish = choose_random_dish(&rest_variants);
-            replics::chosen_dish_answer(cx, chosen_dish, &rest_variants).await
+            transitions::chosen_dish_answer(cx, chosen_dish, &rest_variants).await
         }
-        _ => replics::sorry_not_sorry(cx).await,
+        _ => transitions::sorry_not_sorry(cx).await,
     }
 }
