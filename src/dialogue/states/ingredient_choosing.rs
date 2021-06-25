@@ -1,8 +1,9 @@
 use crate::dialogue::dishes::Dish;
-use crate::dialogue::states::DishSuggestedState;
 use crate::dialogue::Dialogue;
+use crate::keyboards::*;
+use crate::replics;
 use crate::utils::*;
-use teloxide::{prelude::*, types::ReplyMarkup};
+use teloxide::prelude::*;
 
 use super::ReceiveRequestState;
 
@@ -28,7 +29,7 @@ async fn ingredient_choosing(
                 .split(',')
                 .map(|s| s.trim().to_lowercase())
                 .collect();
-            let variants: Vec<Dish> = get_food_variants()
+            let variants: Vec<Dish> = get_dish_variants()
                 .iter()
                 .filter(|d| {
                     chosen_ingredients
@@ -37,21 +38,8 @@ async fn ingredient_choosing(
                 })
                 .cloned()
                 .collect();
-            let chosen_food = choose_random_food(&variants);
-            match chosen_food {
-                Some(dish) => {
-                    cx.answer(dish_suggestion_text(dish))
-                        .reply_markup(dish_keyboard())
-                        .await?;
-                    next(DishSuggestedState::new(variants.clone(), dish.clone()))
-                }
-                None => {
-                    cx.answer("Ой, а блюда-то закончились!".to_string())
-                        .reply_markup(ReplyMarkup::kb_remove())
-                        .await?;
-                    exit()
-                }
-            }
+            let chosen_food = choose_random_dish(&variants);
+            replics::chosen_dish_answer(cx, chosen_food, &variants).await
         }
     }
 }

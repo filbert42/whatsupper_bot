@@ -1,7 +1,7 @@
 pub mod dishes;
 mod states;
 
-use crate::dialogue::states::{
+pub use crate::dialogue::states::{
     DishSuggestedState, IngredientChoosingState, MenuShowedState, ReceiveRequestState, StartState,
 };
 use derive_more::From;

@@ -1,7 +1,7 @@
-use super::DishSuggestedState;
 use crate::dialogue::Dialogue;
+use crate::replics;
 use crate::utils::*;
-use teloxide::{prelude::*, types::ReplyMarkup};
+use teloxide::prelude::*;
 
 #[derive(Clone, Generic)]
 pub struct MenuShowedState;
@@ -13,35 +13,12 @@ async fn menu_showed(
     ans: String,
 ) -> TransitionOut<Dialogue> {
     match ans.as_str() {
-        "Спасибо!" => {
-            cx.answer("Пожалуйста!".to_string())
-                .reply_markup(ReplyMarkup::kb_remove())
-                .await?;
-            exit()
-        }
+        "Спасибо!" => replics::thanks_reply(cx, "Пожалуйста!").await,
         "Ладно, мне повезет!" => {
-            let variants = get_food_variants();
-            let chosen_food = choose_random_food(&variants);
-            match chosen_food {
-                Some(dish) => {
-                    cx.answer(dish_suggestion_text(dish))
-                        .reply_markup(dish_keyboard())
-                        .await?;
-                    next(DishSuggestedState::new(variants.clone(), dish.clone()))
-                }
-                None => {
-                    cx.answer("Ой, а блюда-то закончились!".to_string())
-                        .reply_markup(ReplyMarkup::kb_remove())
-                        .await?;
-                    exit()
-                }
-            }
+            let variants = get_dish_variants();
+            let chosen_food = choose_random_dish(&variants);
+            replics::chosen_dish_answer(cx, chosen_food, &variants).await
         }
-        _ => {
-            cx.answer("Прости, ничем не могу с этим помочь".to_string())
-                .reply_markup(ReplyMarkup::kb_remove())
-                .await?;
-            exit()
-        }
+        _ => replics::sorry_not_sorry(cx).await,
     }
 }

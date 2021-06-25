@@ -1,6 +1,6 @@
 use crate::{
-    dialogue::{states::ReceiveRequestState, Dialogue},
-    utils::*,
+    dialogue::{Dialogue, ReceiveRequestState},
+    keyboards,
 };
 use teloxide::prelude::*;
 
@@ -14,7 +14,7 @@ async fn start(
     _ans: String,
 ) -> TransitionOut<Dialogue> {
     cx.answer("Привет! Я твой кулинарный помощник! Чем могу помочь?")
-        .reply_markup(start_keyboard())
+        .reply_markup(keyboards::start_keyboard())
         .await?;
     next(ReceiveRequestState)
 }
